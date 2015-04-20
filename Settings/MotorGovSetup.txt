@@ -1,0 +1,41 @@
+[mCP-X]
+LipoCells=1
+KV=13600
+Pole=6
+Teeth=8
+MainGearTeeth=64
+KVCompensation=81
+
+[mCP-X BL]
+LipoCells=2
+KV=6100
+Pole=2
+Teeth=8
+MainGearTeeth=64
+KVCompensation=81
+
+[nano CP-X]
+LipoCells=1
+KV=16600
+Pole=6
+Teeth=7
+MainGearTeeth=70
+KVCompensation=81
+
+[nano CP-X BL]
+LipoCells=1
+KV=14800
+Pole=2
+Teeth=7
+MainGearTeeth=70
+KVCompensation=81
+
+[130X]
+LipoCells=2
+KV=6730
+Pole=2
+Teeth=11
+MainGearTeeth=111
+KVCompensation=81
+
+

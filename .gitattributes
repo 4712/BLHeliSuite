@@ -1,0 +1,35 @@
+# Standard to msysgit
+*.doc	 diff=astextplain
+*.DOC	 diff=astextplain
+*.docx diff=astextplain
+*.DOCX diff=astextplain
+*.dot  diff=astextplain
+*.DOT  diff=astextplain
+*.pdf  diff=astextplain
+*.PDF	 diff=astextplain
+*.rtf	 diff=astextplain
+*.RTF	 diff=astextplain
+*.ini  diff=astextplain
+*.INI  diff=astextplain
+*.cfg	 diff=astextplain
+*.CFG	 diff=astextplain
+*.hex	 diff=astextplain
+*.HEX	 diff=astextplain
+*.eep	 diff=astextplain
+*.EEP  diff=astextplain
+*.txt	 diff=astextplain
+*.TXT  diff=astextplain
+
+* binary
+#*.ini eol=crlf
+#*.txt eol=crlf  
+#*.cfg eol=crlf
+#*.bat eol=crlf
+
+#*.hex binary
+#*.eep binary
+#*.ico binary
+#*.pdf binary
+#*.xls binary
+#*.exe binary
+#*.dll binary
