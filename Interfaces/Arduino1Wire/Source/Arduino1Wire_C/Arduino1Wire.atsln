@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_Nano_168", "Arduino1Wire_Nano_168.cproj", "{F0DB574F-F806-4157-83B5-8191FD10585A}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_PB3_168", "Arduino1Wire_PB3_168.cproj", "{F7C84B01-1E68-49C4-B9D0-706539C63994}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_Nano_328", "Arduino1Wire_Nano_328.cproj", "{06EFF30B-60B4-4B4C-8B18-C79855C19227}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_Uno", "Arduino1Wire_Uno.cproj", "{6FE5367A-1834-457B-B4DF-19966D4A9C0D}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_Mega_2560_ADK", "Arduino1Wire_Mega_2560_ADK.cproj", "{42CE96F7-BCF3-41E3-A406-0391C5E0FB82}"
+EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "Arduino1Wire_PB3_328", "Arduino1Wire_PB3_328.cproj", "{45360E27-3092-478A-BCF7-F18CE16F0D72}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0DB574F-F806-4157-83B5-8191FD10585A}.Debug|AVR.ActiveCfg = Debug|AVR
+		{F0DB574F-F806-4157-83B5-8191FD10585A}.Debug|AVR.Build.0 = Debug|AVR
+		{F0DB574F-F806-4157-83B5-8191FD10585A}.Release|AVR.ActiveCfg = Release|AVR
+		{F0DB574F-F806-4157-83B5-8191FD10585A}.Release|AVR.Build.0 = Release|AVR
+		{F7C84B01-1E68-49C4-B9D0-706539C63994}.Debug|AVR.ActiveCfg = Debug|AVR
+		{F7C84B01-1E68-49C4-B9D0-706539C63994}.Debug|AVR.Build.0 = Debug|AVR
+		{F7C84B01-1E68-49C4-B9D0-706539C63994}.Release|AVR.ActiveCfg = Release|AVR
+		{F7C84B01-1E68-49C4-B9D0-706539C63994}.Release|AVR.Build.0 = Release|AVR
+		{06EFF30B-60B4-4B4C-8B18-C79855C19227}.Debug|AVR.ActiveCfg = Debug|AVR
+		{06EFF30B-60B4-4B4C-8B18-C79855C19227}.Debug|AVR.Build.0 = Debug|AVR
+		{06EFF30B-60B4-4B4C-8B18-C79855C19227}.Release|AVR.ActiveCfg = Release|AVR
+		{06EFF30B-60B4-4B4C-8B18-C79855C19227}.Release|AVR.Build.0 = Release|AVR
+		{6FE5367A-1834-457B-B4DF-19966D4A9C0D}.Debug|AVR.ActiveCfg = Debug|AVR
+		{6FE5367A-1834-457B-B4DF-19966D4A9C0D}.Debug|AVR.Build.0 = Debug|AVR
+		{6FE5367A-1834-457B-B4DF-19966D4A9C0D}.Release|AVR.ActiveCfg = Release|AVR
+		{6FE5367A-1834-457B-B4DF-19966D4A9C0D}.Release|AVR.Build.0 = Release|AVR
+		{42CE96F7-BCF3-41E3-A406-0391C5E0FB82}.Debug|AVR.ActiveCfg = Debug|AVR
+		{42CE96F7-BCF3-41E3-A406-0391C5E0FB82}.Debug|AVR.Build.0 = Debug|AVR
+		{42CE96F7-BCF3-41E3-A406-0391C5E0FB82}.Release|AVR.ActiveCfg = Release|AVR
+		{42CE96F7-BCF3-41E3-A406-0391C5E0FB82}.Release|AVR.Build.0 = Release|AVR
+		{45360E27-3092-478A-BCF7-F18CE16F0D72}.Debug|AVR.ActiveCfg = Debug|AVR
+		{45360E27-3092-478A-BCF7-F18CE16F0D72}.Debug|AVR.Build.0 = Debug|AVR
+		{45360E27-3092-478A-BCF7-F18CE16F0D72}.Release|AVR.ActiveCfg = Release|AVR
+		{45360E27-3092-478A-BCF7-F18CE16F0D72}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
