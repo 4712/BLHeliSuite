@@ -170,8 +170,6 @@
 #endif
 
 
-.def	i_sreg	= r9					; status register save in interrupts
-
 ; Simple boot loader on PWM input pin.
 ;
 ; We stay here as long as the input pin is pulled high, which is typical
@@ -185,29 +183,32 @@
 ; or set to start at pulses shorter than the linker timing.
 ;
 ; All transmissions have a leader of 23 1-bits followed by 1 0-bit.
-; Bit encoding starts at the least significant bit and is 8 bits wide.
-; 1-bits are encoded as 64.0us high, 72.8us low (135.8us total).
-; 0-bits are encoded as 27.8us high, 34.5us low, 34.4us high, 37.9 low
-; (134.6us total)
-; End of encoding adds 34.0us high, then return to input mode.
-; The last 0-bit low time is 32.6us instead of 37.9us, for some reason.
+; Byte encoding starts at the least significant bit and is 8 bits wide.
+; Measuring the Turnigy USB Linker results in the following timings:
+; 1-bits are encoded as 62.0us high, 72.0us low.
+; 0-bits are encoded as 27.7us high, 34.4us low, 34.4us high, 37.7 low.
+; Bit encoding takes about 134us in total.
+; End of encoding adds 34.4us high, then returns to input/pull-up mode.
+; Minimum restart time is 37.0us in input state before the next leader.
 ;
-; We always learn the actual timing from the host's leader. It seems to
-; be possible to respond faster or slower, but faster will cause drops
-; between the host and its serial-to-USB conversion at 9600baud. It does
-; seem to work to use an average of high and low times as the actual bit
-; timing, but since it doesn't quite fit in one byte at clk/8 at 16MHz,
-; we store the high and low times separately, and copy the same timings.
-; We should still work even at many times the bit rate.
+; For this implementation, we always learn the actual timing from the
+; host's leader. The USB linker's implementation seems to accept faster
+; or slower responses, but faster will cause drops between the host and
+; its serial-to-USB conversion at 9600baud, so we always try to match or
+; be slower than the host's timing. It works to use an even fraction for
+; the actual bit timing, but since the total doesn't quite fit in a byte
+; at clk/8 at 16MHz, we store and use the high and low times separately.
+; This implementation should work with much faster pulses than currently
+; used by the USB linker.
 ;
 ; We support self-flashing ourselves (yo dawg), but doing so in a way
 ; that can still respond after each page update is a bit tricky. Some
 ; nops are present for future expansion without bumping addresses.
 ;
 ; We implement STK500v2, as recommended by the avrdude author, rather
-; than implementing a random new protocol. STK500v2 protocol is the only
-; serial protocol that passes the chip signature bytes directly instead
-; of using a lookup table. However, avrdude uses CMD_SPI_MULTI to get
+; than implementing a random new protocol. STK500v2 is the only serial
+; protocol that passes the chip signature bytes directly instead of
+; using a lookup table. However, avrdude uses CMD_SPI_MULTI to get
 ; these, which is for direct SPI access. We have to catch this and fake
 ; the response. We respond to CMD_SIGN_ON with "AVRISP_2", which keeps
 ; all messages in the same format and with xor-checksums. We could say
@@ -217,6 +218,19 @@
 ; Note that to work with the Turnigy USB linker, the baud rate must be
 ; set to 9600.
 ;
+; There seem to be some bugs in the USB linker implementation. With a gap
+; of 5.35ms - 5.75ms between two test characters, the decision seems to
+; be made that another byte is not ready to fit in time, and a second
+; leader is scheduled to start after the minimum restart gap. However,
+; the second byte seems to make it in the first transmission after all,
+; leaving the second one with an empty body. We will process the packet
+; at the end of receiving it, but we won't reply until there is silence,
+; so this should cause no ill effect. However, with a gap of 5.8ms, the
+; linker holds the line low for the duration of the second byte (1056us),
+; drives high for 34.4us, returns to input mode for 447us, then starts a
+; new leader with an empty body. This is not recoverable and may cause us
+; to exit to the application.
+;--
 ; Registers:
 ; r0: Temporary, spm data (temp5)
 ; r1: Temporary, spm data (temp6)
@@ -227,7 +241,7 @@
 ; r6: stk500v2 message length low
 ; r7: stk500v2 message length high
 ; r8: 7/8th bit time in timer2 ticks
-; r9: Unused
+; r9: stk500v2 sequence number
 ; r10: Doubled (word) address l
 ; r11: Doubled (word) address h
 ; r12: Address l
@@ -454,9 +468,9 @@ boot_rx3:
 		clc				; Receiving 0-bit
 boot_rx4:	
 		in_r14_TIFR;in	r14, TIFR
-		sbrc	r14, TOV2
-		rjmp	boot_rx_bit		; Timeout, must be 0-bit
 		sbis	RCP_PIN, rcp_in
+		sbrc	r14, TOV2
+		rjmp	boot_rx_bit		; Timeout or high, must be 0-bit
 		rjmp	boot_rx4
 
 boot_tx_bytes:
@@ -589,7 +603,7 @@ stk_rx_start:
 		adiw	ZL, stk_rx_seq - stk_rx_start
 		rjmp	boot_rx_cont
 stk_rx_seq:	
-		mov	i_sreg, r22		; Store sequence number in i_sreg
+		mov	r9, r22		; Store sequence number in r9
 		eor	r5, r22
 		adiw	ZL, stk_rx_size_h - stk_rx_seq
 		rjmp	boot_rx_cont
@@ -639,7 +653,7 @@ stk_rx:
 		movw	ZL, XL			; Start checksumming from here
 		ldi	r23, MESSAGE_START
 		st	Z, r23			; Message start
-		std	Z+1, i_sreg		; Sequence number
+		std	Z+1, r9		; Sequence number
 		std	Z+2, r16		; Message body size high
 		ldi	r23, 2
 		std	Z+3, r23		; Message body size low
