@@ -8,6 +8,7 @@ DEL MakeSKBootloader_Result.txt /Q
 
 rem ***** Adapt settings to your enviroment ****
 DEL Output\Hex\*.hex /Q
+DEL Output\Hex\SKBootloader.rc /Q
 MKDIR Output
 MKDIR Output\Hex
 rem SET AtmelPath=C:\Atmel\avrassembler

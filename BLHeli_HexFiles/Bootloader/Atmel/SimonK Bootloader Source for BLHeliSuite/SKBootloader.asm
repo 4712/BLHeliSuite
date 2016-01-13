@@ -1,9 +1,10 @@
 ; This file is a derivation of open source boot.inc 
 ; Copyright (C) 2011-2012 Simon Kirby and other contributors
 ; Added support for ATmega168/PA and support for separate compilation
-; 2014 by 4712 
+; 2016 by 4712 
 
 ;Found that boot_clear_flash erases only flash from BOOT_START as byte address (here 0x0E00) down to 0x00. But BOOT_START is word address.
+;Found missing clt which leads to EEprom write failure, if jump form main firmware to the bootloader
 ;Also PAGESIZE is a word address.
 ;#define SkBoot_m8
 ;#define  SkBoot_m168
@@ -766,6 +767,7 @@ scmd2:
 		cpi	r22, CMD_READ_EEPROM_ISP
 		breq	scmd_read_eeprom
 		adiw	YL, 7			; Skip useless write command bytes
+		clt             
 		cpi	r22, CMD_PROGRAM_EEPROM_ISP
 		breq	scmd_program_eeprom
 		cpi	r22, CMD_PROGRAM_FLASH_ISP
@@ -939,7 +941,6 @@ boot_clear_fl1:
 		ret
 
 ; Pad out the boot loader to work around avrdude verifying gaps
-		nop
 		nop
 		nop
 
