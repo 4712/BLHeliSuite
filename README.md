@@ -1,1 +1,1 @@
-# BLHeliSuite 16.3.14.7.0.1
+# BLHeliSuite 16.3.14.7.0.2
